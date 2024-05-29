@@ -9,18 +9,24 @@ set(CMAKE_CXX_STANDARD 14)
 
 #设置头文件路径
 set(GLFW_INC_DIR ./_deps/glfw/include) #相对于.cpp, .h文件而言的
+set(GLAD_INC_DIR ./_deps/glad/include)
 
 #设置链接库路径
 set(GLFW_LINK_DIR ../_deps/glfw/lib) #相对于可执行文件而言的
 
 #引入头文件
 include_directories(${GLFW_INC_DIR})
+include_directories(${GLAD_INC_DIR})
 
 #引入库文件
 link_directories(${GLFW_LINK_DIR})
 
 #编译文件
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(
+        ${PROJECT_NAME}
+        glad.c
+        main.cpp
+)
 
 #将第三方库连接在一起
 target_link_libraries(
