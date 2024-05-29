@@ -24,7 +24,7 @@ link_directories(${GLFW_LINK_DIR})
 #编译文件
 add_executable(
         ${PROJECT_NAME}
-        glad.c
+        glad/src/glad.c
         main.cpp
 )
 
