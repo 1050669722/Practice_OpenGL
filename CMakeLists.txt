@@ -8,8 +8,8 @@ project(Practice_OpenGL)
 set(CMAKE_CXX_STANDARD 14)
 
 #设置头文件路径
-set(GLFW_INC_DIR ./_deps/glfw/include) #相对于.cpp, .h文件而言的
-set(GLAD_INC_DIR ./_deps/glad/include)
+set(GLFW_INC_DIR ./_deps/glfw/include) #相对于CMakeLists.txt文件而言的
+set(GLAD_INC_DIR glad/include)
 
 #设置链接库路径
 set(GLFW_LINK_DIR ../_deps/glfw/lib) #相对于可执行文件而言的
