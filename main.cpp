@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 
     // render loop
     // -----------
-    while(!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window))
     {
         // input
         // -----
