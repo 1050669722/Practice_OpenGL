@@ -14,6 +14,45 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+// // shaders
+// // vs
+// const char *vertexShaderSource = "#version 330 core\n"
+//                                  "layout (location = 0) in vec3 aPos;\n"
+//                                  "void main()\n"
+//                                  "{\n"
+//                                  "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+//                                  "}\0";
+// // fs
+// const char *fragmentShaderSource = "#version 330 core\n"
+//                                    "out vec4 FragColor;\n"
+//                                    "void main()\n"
+//                                    "{\n"
+//                                    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+//                                    "}\n\0";
+
+// 着色器的输入与输出
+// // shaders
+// // vs
+// const char *vertexShaderSource = "#version 330 core\n"
+//                                  "layout (location = 0) in vec3 aPos;\n"
+//                                  "out vec4 vertexColor;\n"
+//                                  "void main()\n"
+//                                  "{\n"
+//                                  // "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+//                                  "   gl_Position = vec4(aPos, 1.0);\n"
+//                                  "   vertexColor = vec4(0.5, 0.0, 0.0, 1.0);\n"
+//                                  "}\0";
+// // fs
+// const char *fragmentShaderSource = "#version 330 core\n"
+//                                    "out vec4 FragColor;\n"
+//                                    "in vec4 vertexColor;\n"
+//                                    "void main()\n"
+//                                    "{\n"
+//                                    // "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+//                                    "   FragColor = vertexColor;\n"
+//                                    "}\n\0";
+
+// 着色器的Uniform
 // shaders
 // vs
 const char *vertexShaderSource = "#version 330 core\n"
@@ -25,9 +64,10 @@ const char *vertexShaderSource = "#version 330 core\n"
 // fs
 const char *fragmentShaderSource = "#version 330 core\n"
                                    "out vec4 FragColor;\n"
+                                   "uniform vec4 ourColor;\n"
                                    "void main()\n"
                                    "{\n"
-                                   "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                                   "   FragColor = ourColor;\n"
                                    "}\n\0";
 
 int main(int argc, char* argv[])
@@ -159,6 +199,16 @@ int main(int argc, char* argv[])
 
         // draw triangle
         glUseProgram(shaderProgram);
+
+        // 更新uniform颜色
+        float timeValue = glfwGetTime();
+        float redValue = sin(timeValue) / 2.0f + 0.5f;
+        float greenValue = sin(timeValue * 1.5f) / 2.0f + 0.5f;
+        float blueValue = sin(timeValue * 2.0f) / 2.0f + 0.5f;
+        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+        glUniform4f(vertexColorLocation, redValue, greenValue, blueValue, 1.0f);
+
+        // 绘制
         glBindVertexArray(VAO);
         // glDrawArrays(GL_TRIANGLES, 0, 6); // glDrawArrays(GL_TRIANGLES, 0, 3);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
