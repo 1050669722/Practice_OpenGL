@@ -66,7 +66,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath)
     glDeleteShader(vertex);
 }
 
-void Shader::use()
+void Shader::use() const
 {
     glUseProgram(m_id); // m_id表示当前shaderProgram的Id
 }
