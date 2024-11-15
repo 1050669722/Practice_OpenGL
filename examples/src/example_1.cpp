@@ -59,10 +59,13 @@ int example_1()
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwMakeContextCurrent(window); //将窗口的上下文设置为当前线程的主上下文
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); //为了保证图形在不同的窗口尺寸下都能正确显示，开发者会使用 glfwSetFramebufferSizeCallback来设置回调函数，以便在窗口大小变化时及时调整渲染参数 //注册framebuffer_size_callback这个函数，告诉GLFW我们希望每当窗口调整大小的时候调用这个函数
+    // 我们还可以将我们的函数注册到其它很多的回调函数中
+    // 我们会在创建窗口之后，渲染循环初始化之前注册这些回调函数
 
     // glad: load all OpenGL function pointers
+    // 初始化GLAD，在调用任何OpenGL的函数之前我们需要初始化GLAD
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -143,18 +146,19 @@ int example_1()
     // as we only have a single shader, we could also just activate our shader once beforehand if we want to
     glUseProgram(shaderProgram);
 
-    // render loop
+    // render loop //渲染循环
     // -----------
     while (!glfwWindowShouldClose(window))
     {
         // input
         // -----
-        processInput(window);
+        processInput(window); //在GLFW中实现一些输入控制
 
         // render
         // ------
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        // 在每个新的渲染迭代开始的时候我们总是希望清屏，否则我们仍能看见上一次迭代的渲染结果（这可能是你想要的效果，但通常这不是）
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f); //状态设置函数 //设置清空屏幕所用的颜色
+        glClear(GL_COLOR_BUFFER_BIT); //状态使用的函数 //清空屏幕的颜色缓冲，可能的缓冲位有GL_COLOR_BUFFER_BIT，GL_DEPTH_BUFFER_BIT和GL_STENCIL_BUFFER_BIT
 
         // render the triangle
         glBindVertexArray(VAO);
@@ -163,7 +167,7 @@ int example_1()
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwPollEvents(); //检查有没有触发什么事件（比如键盘输入、鼠标移动等）、更新窗口状态，并调用对应的回调函数
     }
 
     // optional: de-allocate all resources once they've outlived their purpose:
@@ -174,6 +178,6 @@ int example_1()
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
-    glfwTerminate();
+    glfwTerminate(); //正确释放/删除之前的分配的所有资源
     return 0;
 }

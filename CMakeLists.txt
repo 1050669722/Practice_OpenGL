@@ -36,6 +36,9 @@ include_directories(${SHADERS_INC_DIR})
 # ------------------------------------------------
 
 # ---引入源文件------------------------------------
+# aux_source_directory无法递归地查找子目录中的文件
+# aux_source_directory只能检测目录下的.cpp文件，不能检测到头文件
+# 现代 CMake 更推荐使用 file(GLOB...)或者手动维护源文件列表以获得更好的控制和灵活性。
 # glad中的所有源文件
 aux_source_directory(${GLAD_SRC_DIR} GLAD_SOURCE)
 # tools中的所有源文件
