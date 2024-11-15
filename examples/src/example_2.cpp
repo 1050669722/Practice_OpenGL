@@ -50,6 +50,7 @@ int example_2()
 
     // build and compile our shader program
     // ------------------------------------
+    // TODO: Paths should be organized by CMake
     Shader ourShader("../shaders/vertex_shaders/3.3.shader.vs", "../shaders/fragment_shaders/3.3.shader.fs"); // you can name your shader files however you like
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
